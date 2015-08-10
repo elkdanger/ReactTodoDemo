@@ -5,7 +5,7 @@ module.exports.TodoApp = React.createClass({
 	render: function() {
 		return (
 			<section id='todo'>
-				<h1>Todo List</h1>		
+				<h1>Todo List Demo</h1>		
 				<TodoItems />
 			</section>
 		)

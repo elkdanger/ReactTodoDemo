@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "concurrent \"node ./bin/www\" \"watchify entry.js -t babelify -o public/javascripts/index.js\"",
     "compile": "browserify entry -t babelify -o public/javascripts/index.js"
   },
   "dependencies": {
@@ -19,10 +19,14 @@
   "devDependencies": {
     "babelify": "^6.1.3",
     "browserify": "^11.0.1",
-    "browserify-shim": "^3.8.10"
+    "browserify-shim": "^3.8.10",
+    "concurrently": "^0.1.1",
+    "watchify": "^3.3.1"
   },
   "browserify": {
-    "transform": ["browserify-shim"]
+    "transform": [
+      "browserify-shim"
+    ]
   },
   "browserify-shim": {
     "react": "global:React"

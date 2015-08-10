@@ -10,8 +10,8 @@ A demo Todo app using Express, Browserify and React. This project also implement
 - Note the call to `React.renderToString` in the index route to actually render the component on the server
 
 ## Tasks
-- `$ npm start` - run the site (browse to http://localhost:3000)
-- `$ npm run compile` - compile the JSX components. Since I don't have a watch task set up yet, you'll need to do this every time you change something in the component.
+- `$ npm start` - run the site (browse to http://localhost:3000) and start watchify to watch for changes on the component bundle
+- `$ npm run compile` - compile the JSX components.
 
 [1]: https://www.npmjs.org/package/browserify-shim
 [2]: https://babeljs.io/docs/setup/#babel_register

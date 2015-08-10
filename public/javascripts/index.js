@@ -65,7 +65,7 @@ module.exports.TodoApp = React.createClass({
 			React.createElement(
 				'h1',
 				null,
-				'Todo List'
+				'Todo List Demo'
 			),
 			React.createElement(TodoItems, null)
 		);
@@ -168,6 +168,8 @@ var React = (typeof window !== "undefined" ? window['React'] : typeof global !==
 var TodoApp = require('./components/TodoApp.jsx').TodoApp;
 
 React.render(React.createElement(TodoApp, null), document.getElementById('app'));
+
+console.log('hello');
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"./components/TodoApp.jsx":2}]},{},[5]);
