@@ -22,7 +22,10 @@ module.exports.TodoItem = React.createClass({
 		return (
 			<tr className={classes.join(' ')}>
 				<td>{this.props.name}</td>
-				<td><input type="checkbox" checked={this.state.checked} onChange={this.handleChecked} /></td>
+				<td>
+					<input type="checkbox" checked={this.state.checked} onChange={this.handleChecked} />
+					<a href="#" onClick={this.props.onDelete.bind(this, this.props.name)}>Delete</a>
+				</td>
 			</tr>
 		)
 	}

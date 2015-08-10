@@ -14,9 +14,14 @@ module.exports.TodoItems = React.createClass({
 		this.setState({ items: this.state.items.concat([item]) });	
 	},
 
-	render: function() {
+	handleDelete: function(item) {		
+		this.state.items.splice(this.state.items.indexOf(item), 1);
+		this.setState({ items: this.state.items });
+	},
 
-		var items = this.state.items.map(function(item) { return <TodoItem name={item} key={item.name} />; });
+	render: function() {
+		var self = this;
+		var items = this.state.items.map(function(item) { return <TodoItem name={item} key={item.name} onDelete={self.handleDelete} />; });
 		
 		return (
 			<table className="table table-striped">

@@ -109,7 +109,12 @@ module.exports.TodoItem = React.createClass({
 			React.createElement(
 				'td',
 				null,
-				React.createElement('input', { type: 'checkbox', checked: this.state.checked, onChange: this.handleChecked })
+				React.createElement('input', { type: 'checkbox', checked: this.state.checked, onChange: this.handleChecked }),
+				React.createElement(
+					'a',
+					{ href: '#', onClick: this.props.onDelete.bind(this, this.props.name) },
+					'Delete'
+				)
 			)
 		);
 	}
@@ -137,10 +142,15 @@ module.exports.TodoItems = React.createClass({
 		this.setState({ items: this.state.items.concat([item]) });
 	},
 
-	render: function render() {
+	handleDelete: function handleDelete(item) {
+		this.state.items.splice(this.state.items.indexOf(item), 1);
+		this.setState({ items: this.state.items });
+	},
 
+	render: function render() {
+		var self = this;
 		var items = this.state.items.map(function (item) {
-			return React.createElement(TodoItem, { name: item, key: item.name });
+			return React.createElement(TodoItem, { name: item, key: item.name, onDelete: self.handleDelete });
 		});
 
 		return React.createElement(
