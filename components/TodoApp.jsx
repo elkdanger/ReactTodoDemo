@@ -1,6 +1,4 @@
 var React = require('react');
-var NewItem = require('./NewItem.jsx').NewItem;
-var TodoItem = require('./TodoItem.jsx').TodoItem;
 var TodoItems = require('./TodoItems.jsx').TodoItems;
 
 module.exports.TodoApp = React.createClass({

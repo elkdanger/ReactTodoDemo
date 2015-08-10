@@ -53,8 +53,6 @@ module.exports.NewItem = React.createClass({
 'use strict';
 
 var React = (typeof window !== "undefined" ? window['React'] : typeof global !== "undefined" ? global['React'] : null);
-var NewItem = require('./NewItem.jsx').NewItem;
-var TodoItem = require('./TodoItem.jsx').TodoItem;
 var TodoItems = require('./TodoItems.jsx').TodoItems;
 
 module.exports.TodoApp = React.createClass({
@@ -75,7 +73,7 @@ module.exports.TodoApp = React.createClass({
 });
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./NewItem.jsx":1,"./TodoItem.jsx":3,"./TodoItems.jsx":4}],3:[function(require,module,exports){
+},{"./TodoItems.jsx":4}],3:[function(require,module,exports){
 (function (global){
 "use strict";
 
@@ -105,12 +103,14 @@ module.exports.TodoItem = React.createClass({
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],4:[function(require,module,exports){
 (function (global){
-"use strict";
+'use strict';
 
 var React = (typeof window !== "undefined" ? window['React'] : typeof global !== "undefined" ? global['React'] : null);
+var TodoItem = require('./TodoItem.jsx').TodoItem;
+var NewItem = require('./NewItem.jsx').NewItem;
 
 module.exports.TodoItems = React.createClass({
-	displayName: "TodoItems",
+	displayName: 'TodoItems',
 
 	getInitialState: function getInitialState() {
 		return {
@@ -129,28 +129,28 @@ module.exports.TodoItems = React.createClass({
 		});
 
 		return React.createElement(
-			"table",
-			{ className: "table table-striped" },
+			'table',
+			{ className: 'table table-striped' },
 			React.createElement(
-				"thead",
+				'thead',
 				null,
 				React.createElement(
-					"tr",
+					'tr',
 					null,
 					React.createElement(
-						"th",
+						'th',
 						null,
-						"Name"
+						'Name'
 					),
 					React.createElement(
-						"th",
+						'th',
 						null,
-						" "
+						' '
 					)
 				)
 			),
 			React.createElement(
-				"tbody",
+				'tbody',
 				null,
 				items,
 				React.createElement(NewItem, { onAdd: this.onAdd })
@@ -160,7 +160,7 @@ module.exports.TodoItems = React.createClass({
 });
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],5:[function(require,module,exports){
+},{"./NewItem.jsx":1,"./TodoItem.jsx":3}],5:[function(require,module,exports){
 (function (global){
 'use strict';
 

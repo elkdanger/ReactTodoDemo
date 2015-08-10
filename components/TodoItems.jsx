@@ -1,10 +1,12 @@
 var React = require('react');
+var TodoItem = require('./TodoItem.jsx').TodoItem;
+var NewItem = require('./NewItem.jsx').NewItem;
 
 module.exports.TodoItems = React.createClass({
 
 	getInitialState: function() {
 		return {
-			items: []			
+			items: []		
 		}
 	},
 
