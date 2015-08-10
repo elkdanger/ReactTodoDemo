@@ -34,7 +34,7 @@ module.exports.NewItem = React.createClass({
 				{ colspan: '2' },
 				React.createElement(
 					'form',
-					{ onSubmit: this.handleSubmit },
+					{ onSubmit: this.handleSubmit, className: 'form-inline' },
 					React.createElement('input', { type: 'text', className: 'form-control', placeholder: 'Enter a new todo item', onChange: this.handleChange, value: this.state.value }),
 					React.createElement(
 						'button',
@@ -75,26 +75,41 @@ module.exports.TodoApp = React.createClass({
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"./TodoItems.jsx":4}],3:[function(require,module,exports){
 (function (global){
-"use strict";
+'use strict';
 
 var React = (typeof window !== "undefined" ? window['React'] : typeof global !== "undefined" ? global['React'] : null);
 
 module.exports.TodoItem = React.createClass({
-	displayName: "TodoItem",
+	displayName: 'TodoItem',
+
+	getInitialState: function getInitialState() {
+		return {
+			checked: this.props.checked || false
+		};
+	},
+
+	handleChecked: function handleChecked(e) {
+		this.setState({ checked: e.currentTarget.checked });
+	},
 
 	render: function render() {
+
+		var classes = ['todo-item'];
+
+		if (this.state.checked) classes.push('success');
+
 		return React.createElement(
-			"tr",
-			{ className: "todo-item" },
+			'tr',
+			{ className: classes.join(' ') },
 			React.createElement(
-				"td",
+				'td',
 				null,
 				this.props.name
 			),
 			React.createElement(
-				"td",
+				'td',
 				null,
-				React.createElement("input", { type: "checkbox" })
+				React.createElement('input', { type: 'checkbox', checked: this.state.checked, onChange: this.handleChecked })
 			)
 		);
 	}

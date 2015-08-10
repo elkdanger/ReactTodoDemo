@@ -2,11 +2,27 @@ var React = require('react');
 
 module.exports.TodoItem = React.createClass({
 
+	getInitialState: function() {
+		return {
+			checked: this.props.checked || false
+		}
+	},
+
+	handleChecked: function(e) {
+		this.setState({ checked: e.currentTarget.checked });
+	},
+
 	render: function() {
+
+		var classes = ['todo-item'];
+
+		if (this.state.checked)
+			classes.push('success');
+
 		return (
-			<tr className="todo-item">
+			<tr className={classes.join(' ')}>
 				<td>{this.props.name}</td>
-				<td><input type="checkbox" /></td>
+				<td><input type="checkbox" checked={this.state.checked} onChange={this.handleChecked} /></td>
 			</tr>
 		)
 	}
