@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "concurrent \"node ./bin/www\" \"watchify entry.js -t babelify -o public/javascripts/index.js\"",
+    "start": "concurrent \"node ./bin/www\" \"watchify entry.js -v -t babelify -o public/javascripts/index.js\"",
     "compile": "browserify entry -t babelify -o public/javascripts/index.js"
   },
   "dependencies": {
