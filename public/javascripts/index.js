@@ -169,7 +169,5 @@ var TodoApp = require('./components/TodoApp.jsx').TodoApp;
 
 React.render(React.createElement(TodoApp, null), document.getElementById('app'));
 
-console.log('hello');
-
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"./components/TodoApp.jsx":2}]},{},[5]);
