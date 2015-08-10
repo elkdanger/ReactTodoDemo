@@ -1,4 +1,4 @@
 var React = require('react');
-var Todo = require('./components/Todo.jsx').Todo;
+var TodoApp = require('./components/TodoApp.jsx').TodoApp;
 
-React.render(<Todo />, document.getElementById('app'));
+React.render(<TodoApp />, document.getElementById('app'));
