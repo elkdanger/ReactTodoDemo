@@ -21,10 +21,10 @@ module.exports.TodoItem = React.createClass({
 
 		return (
 			<tr className={classes.join(' ')}>
+				<td><input type="checkbox" checked={this.state.checked} onChange={this.handleChecked} /></td>
 				<td>{this.props.name}</td>
 				<td>
-					<input type="checkbox" checked={this.state.checked} onChange={this.handleChecked} />
-					<a href="#" onClick={this.props.onDelete.bind(this, this.props.name)}>Delete</a>
+					<button className="close" onClick={this.props.onDelete.bind(this, this.props.name)}><span>&times;</span></button>
 				</td>
 			</tr>
 		)

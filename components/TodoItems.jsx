@@ -27,6 +27,7 @@ module.exports.TodoItems = React.createClass({
 			<table className="table table-striped">
 				<thead>
 					<tr>
+						<th width="50px">&nbsp;</th>
 						<th>Name</th>
 						<th>&nbsp;</th>
 					</tr>

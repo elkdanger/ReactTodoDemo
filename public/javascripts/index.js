@@ -31,7 +31,7 @@ module.exports.NewItem = React.createClass({
 			null,
 			React.createElement(
 				'td',
-				{ colspan: '2' },
+				{ colSpan: '3' },
 				React.createElement(
 					'form',
 					{ onSubmit: this.handleSubmit, className: 'form-inline' },
@@ -104,16 +104,24 @@ module.exports.TodoItem = React.createClass({
 			React.createElement(
 				'td',
 				null,
+				React.createElement('input', { type: 'checkbox', checked: this.state.checked, onChange: this.handleChecked })
+			),
+			React.createElement(
+				'td',
+				null,
 				this.props.name
 			),
 			React.createElement(
 				'td',
 				null,
-				React.createElement('input', { type: 'checkbox', checked: this.state.checked, onChange: this.handleChecked }),
 				React.createElement(
-					'a',
-					{ href: '#', onClick: this.props.onDelete.bind(this, this.props.name) },
-					'Delete'
+					'button',
+					{ className: 'close', onClick: this.props.onDelete.bind(this, this.props.name) },
+					React.createElement(
+						'span',
+						null,
+						'×'
+					)
 				)
 			)
 		);
@@ -162,6 +170,11 @@ module.exports.TodoItems = React.createClass({
 				React.createElement(
 					'tr',
 					null,
+					React.createElement(
+						'th',
+						{ width: '50px' },
+						' '
+					),
 					React.createElement(
 						'th',
 						null,
