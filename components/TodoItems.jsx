@@ -11,12 +11,18 @@ module.exports.TodoItems = React.createClass({
 	},
 
 	onAdd: function(item) {		
-		this.setState({ items: this.state.items.concat([item]) });	
+
+		var newItems = this.state.items.concat([item]);
+
+		this.setState({ items: newItems });	
+		this.props.itemsChanged(newItems);
 	},
 
 	handleDelete: function(item) {		
 		this.state.items.splice(this.state.items.indexOf(item), 1);
+
 		this.setState({ items: this.state.items });
+		this.props.itemsChanged(this.state.items);
 	},
 
 	render: function() {
