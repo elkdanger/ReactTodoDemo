@@ -1,10 +1,8 @@
 import { EventEmitter } from 'events'
-import { Dispatcher } from 'flux'
-import * as _ from 'underscore'
+import Dispatcher from './dispatcher'
+import _ from 'underscore'
 
-let items = ['Get up', 'Eat']
-
-let dispatcher = new Dispatcher();
+let items = []
 
 let store = _.extend({}, EventEmitter.prototype, {
 
@@ -24,14 +22,11 @@ let store = _.extend({}, EventEmitter.prototype, {
 		this.removeListener('changed', callback)
 	},
 
-	dispatcherIndex: dispatcher.register(function(payload) {
-		let action = payload.action;
-		var text;
-
+	dispatcherIndex: Dispatcher.register(function(action) {
+		
 		switch(action.actionType) {
-			case 'add':
-				text = action.text.trim()
-				items.push(text)
+			case 'add':				
+				items.push(action.text.trim())
 				store.emitChange();
 				break;
 

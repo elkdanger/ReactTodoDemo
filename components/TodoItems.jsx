@@ -6,7 +6,6 @@ import Store from '../store';
 module.exports.TodoItems = React.createClass({
 
 	getInitialState: function() {
-
 		return {
 			items: Store.getAll()
 		}
@@ -22,15 +21,6 @@ module.exports.TodoItems = React.createClass({
 
 	onChange: function() {
 		this.setState({ items: Store.getAll() });
-	},
-
-	onAdd: function(item) {		
-		//this.setState({ items: this.state.items.concat([item]) });	
-	},
-
-	handleDelete: function(item) {		
-		//this.state.items.splice(this.state.items.indexOf(item), 1);
-		//this.setState({ items: this.state.items });
 	},
 
 	render: function() {

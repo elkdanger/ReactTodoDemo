@@ -1,4 +1,5 @@
-var React = require('react');
+import React from 'react'
+import Actions from '../actions'
 
 module.exports.NewItem = React.createClass({
 
@@ -13,12 +14,10 @@ module.exports.NewItem = React.createClass({
 	},
 
 	handleSubmit: function(e) {
-		e.preventDefault();
+		e.preventDefault();		
+		Actions.addItem(this.state.value);
 
-		if (this.props.onAdd && this.state.value.length)
-			this.props.onAdd(this.state.value);
-
-		this.setState({ value: '' });
+		this.setState({ value: '' })
 	},
 
 	render: function() {

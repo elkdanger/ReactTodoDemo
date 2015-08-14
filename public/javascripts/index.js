@@ -1,10 +1,41 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+	value: true
+});
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _dispatcher = require('./dispatcher');
+
+var _dispatcher2 = _interopRequireDefault(_dispatcher);
+
+exports['default'] = {
+	addItem: function addItem(item) {
+		_dispatcher2['default'].dispatch({
+			actionType: 'add',
+			text: item
+		});
+	}
+};
+module.exports = exports['default'];
+
+},{"./dispatcher":6}],2:[function(require,module,exports){
 (function (global){
 'use strict';
 
-var React = (typeof window !== "undefined" ? window['React'] : typeof global !== "undefined" ? global['React'] : null);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-module.exports.NewItem = React.createClass({
+var _react = (typeof window !== "undefined" ? window['React'] : typeof global !== "undefined" ? global['React'] : null);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _actions = require('../actions');
+
+var _actions2 = _interopRequireDefault(_actions);
+
+module.exports.NewItem = _react2['default'].createClass({
 	displayName: 'NewItem',
 
 	getInitialState: function getInitialState() {
@@ -19,24 +50,23 @@ module.exports.NewItem = React.createClass({
 
 	handleSubmit: function handleSubmit(e) {
 		e.preventDefault();
-
-		if (this.props.onAdd && this.state.value.length) this.props.onAdd(this.state.value);
+		_actions2['default'].addItem(this.state.value);
 
 		this.setState({ value: '' });
 	},
 
 	render: function render() {
-		return React.createElement(
+		return _react2['default'].createElement(
 			'tr',
 			null,
-			React.createElement(
+			_react2['default'].createElement(
 				'td',
 				{ colspan: '2' },
-				React.createElement(
+				_react2['default'].createElement(
 					'form',
 					{ onSubmit: this.handleSubmit, className: 'form-inline' },
-					React.createElement('input', { type: 'text', className: 'form-control', placeholder: 'Enter a new todo item', onChange: this.handleChange, value: this.state.value }),
-					React.createElement(
+					_react2['default'].createElement('input', { type: 'text', className: 'form-control', placeholder: 'Enter a new todo item', onChange: this.handleChange, value: this.state.value }),
+					_react2['default'].createElement(
 						'button',
 						{ type: 'submit', className: 'btn btn-primary' },
 						'Add item'
@@ -48,15 +78,39 @@ module.exports.NewItem = React.createClass({
 });
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],2:[function(require,module,exports){
+},{"../actions":1}],3:[function(require,module,exports){
 (function (global){
 'use strict';
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _store = require('../store');
+
+var _store2 = _interopRequireDefault(_store);
 
 var React = (typeof window !== "undefined" ? window['React'] : typeof global !== "undefined" ? global['React'] : null);
 var TodoItems = require('./TodoItems.jsx').TodoItems;
 
 module.exports.TodoApp = React.createClass({
 	displayName: 'TodoApp',
+
+	getInitialState: function getInitialState() {
+		return {
+			count: _store2['default'].getAll().length
+		};
+	},
+
+	componentDidMount: function componentDidMount() {
+		_store2['default'].addChangeListener(this.onItemChange);
+	},
+
+	componentWillUnmount: function componentWillUnmount() {
+		_store2['default'].removeChangeListener(this.onItemChange);
+	},
+
+	onItemChange: function onItemChange() {
+		this.setState({ count: _store2['default'].getAll().length });
+	},
 
 	render: function render() {
 		return React.createElement(
@@ -65,7 +119,9 @@ module.exports.TodoApp = React.createClass({
 			React.createElement(
 				'h1',
 				null,
-				'Todo List Demo'
+				'Todo List Demo (',
+				this.state.count,
+				')'
 			),
 			React.createElement(TodoItems, null)
 		);
@@ -73,7 +129,7 @@ module.exports.TodoApp = React.createClass({
 });
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./TodoItems.jsx":4}],3:[function(require,module,exports){
+},{"../store":13,"./TodoItems.jsx":5}],4:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -121,7 +177,7 @@ module.exports.TodoItem = React.createClass({
 });
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -139,7 +195,6 @@ module.exports.TodoItems = React.createClass({
 	displayName: 'TodoItems',
 
 	getInitialState: function getInitialState() {
-
 		return {
 			items: _store2['default'].getAll()
 		};
@@ -155,15 +210,6 @@ module.exports.TodoItems = React.createClass({
 
 	onChange: function onChange() {
 		this.setState({ items: _store2['default'].getAll() });
-	},
-
-	onAdd: function onAdd(item) {
-		//this.setState({ items: this.state.items.concat([item]) });	
-	},
-
-	handleDelete: function handleDelete(item) {
-		//this.state.items.splice(this.state.items.indexOf(item), 1);
-		//this.setState({ items: this.state.items });
 	},
 
 	render: function render() {
@@ -204,7 +250,19 @@ module.exports.TodoItems = React.createClass({
 });
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../store":11,"./NewItem.jsx":1,"./TodoItem.jsx":3}],5:[function(require,module,exports){
+},{"../store":13,"./NewItem.jsx":2,"./TodoItem.jsx":4}],6:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+var _flux = require('flux');
+
+exports['default'] = new _flux.Dispatcher();
+module.exports = exports['default'];
+
+},{"flux":9}],7:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -214,7 +272,7 @@ var TodoApp = require('./components/TodoApp.jsx').TodoApp;
 React.render(React.createElement(TodoApp, null), document.getElementById('app'));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./components/TodoApp.jsx":2}],6:[function(require,module,exports){
+},{"./components/TodoApp.jsx":3}],8:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -517,7 +575,7 @@ function isUndefined(arg) {
   return arg === void 0;
 }
 
-},{}],7:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 /**
  * Copyright (c) 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -529,7 +587,7 @@ function isUndefined(arg) {
 
 module.exports.Dispatcher = require('./lib/Dispatcher')
 
-},{"./lib/Dispatcher":8}],8:[function(require,module,exports){
+},{"./lib/Dispatcher":10}],10:[function(require,module,exports){
 /*
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.
@@ -781,7 +839,7 @@ var _prefix = 'ID_';
 
 module.exports = Dispatcher;
 
-},{"./invariant":9}],9:[function(require,module,exports){
+},{"./invariant":11}],11:[function(require,module,exports){
 /**
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.
@@ -836,7 +894,7 @@ var invariant = function(condition, format, a, b, c, d, e, f) {
 
 module.exports = invariant;
 
-},{}],10:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 //     Underscore.js 1.8.3
 //     http://underscorejs.org
 //     (c) 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -2386,28 +2444,28 @@ module.exports = invariant;
   }
 }.call(this));
 
-},{}],11:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
 	value: true
 });
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj['default'] = obj; return newObj; } }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 var _events = require('events');
 
-var _flux = require('flux');
+var _dispatcher = require('./dispatcher');
+
+var _dispatcher2 = _interopRequireDefault(_dispatcher);
 
 var _underscore = require('underscore');
 
-var _ = _interopRequireWildcard(_underscore);
+var _underscore2 = _interopRequireDefault(_underscore);
 
-var items = ['Get up', 'Eat'];
+var items = [];
 
-var dispatcher = new _flux.Dispatcher();
-
-var store = _.extend({}, _events.EventEmitter.prototype, {
+var store = _underscore2['default'].extend({}, _events.EventEmitter.prototype, {
 
 	getAll: function getAll() {
 		return items;
@@ -2425,14 +2483,11 @@ var store = _.extend({}, _events.EventEmitter.prototype, {
 		this.removeListener('changed', callback);
 	},
 
-	dispatcherIndex: dispatcher.register(function (payload) {
-		var action = payload.action;
-		var text;
+	dispatcherIndex: _dispatcher2['default'].register(function (action) {
 
 		switch (action.actionType) {
 			case 'add':
-				text = action.text.trim();
-				items.push(text);
+				items.push(action.text.trim());
 				store.emitChange();
 				break;
 
@@ -2450,4 +2505,4 @@ var store = _.extend({}, _events.EventEmitter.prototype, {
 exports['default'] = store;
 module.exports = exports['default'];
 
-},{"events":6,"flux":7,"underscore":10}]},{},[5]);
+},{"./dispatcher":6,"events":8,"underscore":12}]},{},[7]);
