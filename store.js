@@ -34,7 +34,8 @@ let store = _.extend({}, EventEmitter.prototype, {
 				break;
 
 			case Actions.removeItem:
-				items = items.splice(items.indexOf(action.text), 1)
+				items.splice(items.indexOf(action.text.trim()), 1)
+				console.log(items);
 				store.emitChange()
 				break;
 		}

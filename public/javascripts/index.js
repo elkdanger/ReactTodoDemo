@@ -19,6 +19,13 @@ exports['default'] = {
 			actionType: _constants.Actions.addItem,
 			text: item
 		});
+	},
+
+	deleteItem: function deleteItem(item) {
+		_dispatcher2['default'].dispatch({
+			actionType: _constants.Actions.removeItem,
+			text: item
+		});
 	}
 };
 module.exports = exports['default'];
@@ -135,9 +142,17 @@ module.exports.TodoApp = React.createClass({
 (function (global){
 'use strict';
 
-var React = (typeof window !== "undefined" ? window['React'] : typeof global !== "undefined" ? global['React'] : null);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-module.exports.TodoItem = React.createClass({
+var _react = (typeof window !== "undefined" ? window['React'] : typeof global !== "undefined" ? global['React'] : null);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _actions = require('../actions');
+
+var _actions2 = _interopRequireDefault(_actions);
+
+module.exports.TodoItem = _react2['default'].createClass({
 	displayName: 'TodoItem',
 
 	getInitialState: function getInitialState() {
@@ -150,36 +165,44 @@ module.exports.TodoItem = React.createClass({
 		this.setState({ checked: e.currentTarget.checked });
 	},
 
+	handleDelete: function handleDelete() {
+		_actions2['default'].deleteItem(this.props.name);
+	},
+
 	render: function render() {
 
 		var classes = ['todo-item'];
 
 		if (this.state.checked) classes.push('success');
 
-		return React.createElement(
+		return _react2['default'].createElement(
 			'tr',
 			{ className: classes.join(' ') },
-			React.createElement(
+			_react2['default'].createElement(
 				'td',
 				null,
 				this.props.name
 			),
-			React.createElement(
+			_react2['default'].createElement(
 				'td',
 				null,
-				React.createElement('input', { type: 'checkbox', checked: this.state.checked, onChange: this.handleChecked }),
-				React.createElement(
-					'a',
-					{ href: '#' },
-					'Delete'
+				_react2['default'].createElement(
+					'button',
+					{ className: 'close', onClick: this.handleDelete },
+					_react2['default'].createElement(
+						'span',
+						null,
+						'×'
+					)
 				)
 			)
 		);
 	}
 });
+/*<input type="checkbox" checked={this.state.checked} onChange={this.handleChecked} />*/
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],5:[function(require,module,exports){
+},{"../actions":1}],5:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -2510,7 +2533,8 @@ var store = _underscore2['default'].extend({}, _events.EventEmitter.prototype, {
 				break;
 
 			case _constants.Actions.removeItem:
-				items = items.splice(items.indexOf(action.text), 1);
+				items.splice(items.indexOf(action.text.trim()), 1);
+				console.log(items);
 				store.emitChange();
 				break;
 		}

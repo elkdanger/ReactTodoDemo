@@ -7,5 +7,12 @@ export default {
 			actionType: Actions.addItem,
 			text: item
 		})
+	},
+
+	deleteItem: function(item) {
+		Dispatcher.dispatch({
+			actionType: Actions.removeItem,
+			text: item
+		})
 	}
 }
