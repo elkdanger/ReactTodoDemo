@@ -1,4 +1,5 @@
-var React = require('react');
+import React from 'react'
+import Actions from '../actions'
 
 module.exports.TodoItem = React.createClass({
 
@@ -12,6 +13,10 @@ module.exports.TodoItem = React.createClass({
 		this.setState({ checked: e.currentTarget.checked });
 	},
 
+	handleDelete: function() {
+		Actions.deleteItem(this.props.name);
+	},
+
 	render: function() {
 
 		var classes = ['todo-item'];
@@ -23,8 +28,8 @@ module.exports.TodoItem = React.createClass({
 			<tr className={classes.join(' ')}>
 				<td>{this.props.name}</td>
 				<td>
-					<input type="checkbox" checked={this.state.checked} onChange={this.handleChecked} />
-					<a href="#" onClick={this.props.onDelete.bind(this, this.props.name)}>Delete</a>
+					{ /*<input type="checkbox" checked={this.state.checked} onChange={this.handleChecked} />*/ }
+					<button className="close" onClick={this.handleDelete}><span>&times;</span></button>
 				</td>
 			</tr>
 		)

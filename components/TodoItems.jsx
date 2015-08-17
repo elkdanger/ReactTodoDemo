@@ -1,22 +1,26 @@
 var React = require('react');
 var TodoItem = require('./TodoItem.jsx').TodoItem;
 var NewItem = require('./NewItem.jsx').NewItem;
+import Store from '../store';
 
 module.exports.TodoItems = React.createClass({
 
 	getInitialState: function() {
 		return {
-			items: []		
+			items: Store.getAll()
 		}
 	},
 
-	onAdd: function(item) {		
-		this.setState({ items: this.state.items.concat([item]) });	
+	componentDidMount: function() {
+		Store.addChangeListener(this.onChange);
 	},
 
-	handleDelete: function(item) {		
-		this.state.items.splice(this.state.items.indexOf(item), 1);
-		this.setState({ items: this.state.items });
+	componentWillUnmount: function() {
+		Store.removeChangeListener(this.onChange);
+	},
+
+	onChange: function() {
+		this.setState({ items: Store.getAll() });
 	},
 
 	render: function() {
