@@ -1,4 +1,5 @@
 import { EventEmitter } from 'events'
+import { Actions } from './constants'
 import Dispatcher from './dispatcher'
 import _ from 'underscore'
 
@@ -24,13 +25,15 @@ let store = _.extend({}, EventEmitter.prototype, {
 
 	dispatcherIndex: Dispatcher.register(function(action) {
 		
+		console.log('Dispatcher action', action);
+
 		switch(action.actionType) {
-			case 'add':				
+			case Actions.addItem:				
 				items.push(action.text.trim())
 				store.emitChange();
 				break;
 
-			case 'delete':
+			case Actions.removeItem:
 				items = items.splice(items.indexOf(action.text), 1)
 				store.emitChange()
 				break;

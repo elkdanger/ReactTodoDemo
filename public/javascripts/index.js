@@ -11,17 +11,19 @@ var _dispatcher = require('./dispatcher');
 
 var _dispatcher2 = _interopRequireDefault(_dispatcher);
 
+var _constants = require('./constants');
+
 exports['default'] = {
 	addItem: function addItem(item) {
 		_dispatcher2['default'].dispatch({
-			actionType: 'add',
+			actionType: _constants.Actions.addItem,
 			text: item
 		});
 	}
 };
 module.exports = exports['default'];
 
-},{"./dispatcher":6}],2:[function(require,module,exports){
+},{"./constants":6,"./dispatcher":7}],2:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -129,7 +131,7 @@ module.exports.TodoApp = React.createClass({
 });
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../store":13,"./TodoItems.jsx":5}],4:[function(require,module,exports){
+},{"../store":14,"./TodoItems.jsx":5}],4:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -168,7 +170,7 @@ module.exports.TodoItem = React.createClass({
 				React.createElement('input', { type: 'checkbox', checked: this.state.checked, onChange: this.handleChecked }),
 				React.createElement(
 					'a',
-					{ href: '#', onClick: this.props.onDelete.bind(this, this.props.name) },
+					{ href: '#' },
 					'Delete'
 				)
 			)
@@ -250,7 +252,19 @@ module.exports.TodoItems = React.createClass({
 });
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../store":13,"./NewItem.jsx":2,"./TodoItem.jsx":4}],6:[function(require,module,exports){
+},{"../store":14,"./NewItem.jsx":2,"./TodoItem.jsx":4}],6:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+	value: true
+});
+var Actions = {
+	addItem: 'ADD_ITEM',
+	removeItem: 'REMOVE_ITEM'
+};
+exports.Actions = Actions;
+
+},{}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -262,7 +276,7 @@ var _flux = require('flux');
 exports['default'] = new _flux.Dispatcher();
 module.exports = exports['default'];
 
-},{"flux":9}],7:[function(require,module,exports){
+},{"flux":10}],8:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -272,7 +286,7 @@ var TodoApp = require('./components/TodoApp.jsx').TodoApp;
 React.render(React.createElement(TodoApp, null), document.getElementById('app'));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./components/TodoApp.jsx":3}],8:[function(require,module,exports){
+},{"./components/TodoApp.jsx":3}],9:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -575,7 +589,7 @@ function isUndefined(arg) {
   return arg === void 0;
 }
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 /**
  * Copyright (c) 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -587,7 +601,7 @@ function isUndefined(arg) {
 
 module.exports.Dispatcher = require('./lib/Dispatcher')
 
-},{"./lib/Dispatcher":10}],10:[function(require,module,exports){
+},{"./lib/Dispatcher":11}],11:[function(require,module,exports){
 /*
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.
@@ -839,7 +853,7 @@ var _prefix = 'ID_';
 
 module.exports = Dispatcher;
 
-},{"./invariant":11}],11:[function(require,module,exports){
+},{"./invariant":12}],12:[function(require,module,exports){
 /**
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.
@@ -894,7 +908,7 @@ var invariant = function(condition, format, a, b, c, d, e, f) {
 
 module.exports = invariant;
 
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 //     Underscore.js 1.8.3
 //     http://underscorejs.org
 //     (c) 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -2444,7 +2458,7 @@ module.exports = invariant;
   }
 }.call(this));
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -2454,6 +2468,8 @@ Object.defineProperty(exports, '__esModule', {
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 var _events = require('events');
+
+var _constants = require('./constants');
 
 var _dispatcher = require('./dispatcher');
 
@@ -2485,13 +2501,15 @@ var store = _underscore2['default'].extend({}, _events.EventEmitter.prototype, {
 
 	dispatcherIndex: _dispatcher2['default'].register(function (action) {
 
+		console.log('Dispatcher action', action);
+
 		switch (action.actionType) {
-			case 'add':
+			case _constants.Actions.addItem:
 				items.push(action.text.trim());
 				store.emitChange();
 				break;
 
-			case 'delete':
+			case _constants.Actions.removeItem:
 				items = items.splice(items.indexOf(action.text), 1);
 				store.emitChange();
 				break;
@@ -2505,4 +2523,4 @@ var store = _underscore2['default'].extend({}, _events.EventEmitter.prototype, {
 exports['default'] = store;
 module.exports = exports['default'];
 
-},{"./dispatcher":6,"events":8,"underscore":12}]},{},[7]);
+},{"./constants":6,"./dispatcher":7,"events":9,"underscore":13}]},{},[8]);
