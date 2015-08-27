@@ -23,7 +23,7 @@ module.exports.NewItem = React.createClass({
 	render: function() {
 		return (
 			<tr>
-				<td colspan="2">
+				<td colSpan="3">
 					<form onSubmit={this.handleSubmit} className="form-inline">
 						<input type="text" className="form-control" placeholder="Enter a new todo item" onChange={this.handleChange} value={this.state.value} />					
 						<button type="submit" className="btn btn-primary">Add item</button>

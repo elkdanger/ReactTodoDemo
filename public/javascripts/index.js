@@ -30,7 +30,41 @@ exports['default'] = {
 };
 module.exports = exports['default'];
 
-},{"./constants":6,"./dispatcher":7}],2:[function(require,module,exports){
+},{"./constants":7,"./dispatcher":8}],2:[function(require,module,exports){
+(function (global){
+"use strict";
+
+var React = (typeof window !== "undefined" ? window['React'] : typeof global !== "undefined" ? global['React'] : null);
+
+module.exports.EmailAddress = React.createClass({
+	displayName: "EmailAddress",
+
+	render: function render() {
+		return React.createElement(
+			"section",
+			{ id: "emailForm" },
+			React.createElement(
+				"h3",
+				null,
+				"Email notifications"
+			),
+			React.createElement(
+				"p",
+				null,
+				"Enter your email address below to be notified when your todo list changes"
+			),
+			React.createElement(
+				"form",
+				{ className: "form-horizontal" },
+				React.createElement("input", { name: "email", className: "form-control", placeholder: "Your email address" })
+			)
+		);
+	}
+
+});
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],3:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -70,7 +104,7 @@ module.exports.NewItem = _react2['default'].createClass({
 			null,
 			_react2['default'].createElement(
 				'td',
-				{ colspan: '2' },
+				{ colSpan: '3' },
 				_react2['default'].createElement(
 					'form',
 					{ onSubmit: this.handleSubmit, className: 'form-inline' },
@@ -87,7 +121,7 @@ module.exports.NewItem = _react2['default'].createClass({
 });
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../actions":1}],3:[function(require,module,exports){
+},{"../actions":1}],4:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -99,13 +133,15 @@ var _store2 = _interopRequireDefault(_store);
 
 var React = (typeof window !== "undefined" ? window['React'] : typeof global !== "undefined" ? global['React'] : null);
 var TodoItems = require('./TodoItems.jsx').TodoItems;
+var EmailAddress = require('./EmailAddress.jsx').EmailAddress;
 
 module.exports.TodoApp = React.createClass({
 	displayName: 'TodoApp',
 
 	getInitialState: function getInitialState() {
 		return {
-			count: _store2['default'].getAll().length
+			count: _store2['default'].getAll().length,
+			showEmailPanel: false
 		};
 	},
 
@@ -118,7 +154,9 @@ module.exports.TodoApp = React.createClass({
 	},
 
 	onItemChange: function onItemChange() {
-		this.setState({ count: _store2['default'].getAll().length });
+		this.setState({
+			count: _store2['default'].getAll().length
+		});
 	},
 
 	render: function render() {
@@ -132,13 +170,14 @@ module.exports.TodoApp = React.createClass({
 				this.state.count,
 				')'
 			),
-			React.createElement(TodoItems, null)
+			React.createElement(TodoItems, null),
+			this.state.showEmailPanel && React.createElement(EmailAddress, null)
 		);
 	}
 });
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../store":14,"./TodoItems.jsx":5}],4:[function(require,module,exports){
+},{"../store":15,"./EmailAddress.jsx":2,"./TodoItems.jsx":6}],5:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -181,6 +220,11 @@ module.exports.TodoItem = _react2['default'].createClass({
 			_react2['default'].createElement(
 				'td',
 				null,
+				_react2['default'].createElement('input', { type: 'checkbox', checked: this.state.checked, onChange: this.handleChecked })
+			),
+			_react2['default'].createElement(
+				'td',
+				null,
 				this.props.name
 			),
 			_react2['default'].createElement(
@@ -202,7 +246,7 @@ module.exports.TodoItem = _react2['default'].createClass({
 /*<input type="checkbox" checked={this.state.checked} onChange={this.handleChecked} />*/
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../actions":1}],5:[function(require,module,exports){
+},{"../actions":1}],6:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -254,6 +298,11 @@ module.exports.TodoItems = React.createClass({
 					null,
 					React.createElement(
 						'th',
+						{ width: '50px' },
+						' '
+					),
+					React.createElement(
+						'th',
 						null,
 						'Name'
 					),
@@ -275,7 +324,7 @@ module.exports.TodoItems = React.createClass({
 });
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../store":14,"./NewItem.jsx":2,"./TodoItem.jsx":4}],6:[function(require,module,exports){
+},{"../store":15,"./NewItem.jsx":3,"./TodoItem.jsx":5}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -287,7 +336,7 @@ var Actions = {
 };
 exports.Actions = Actions;
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -299,7 +348,7 @@ var _flux = require('flux');
 exports['default'] = new _flux.Dispatcher();
 module.exports = exports['default'];
 
-},{"flux":10}],8:[function(require,module,exports){
+},{"flux":11}],9:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -309,7 +358,7 @@ var TodoApp = require('./components/TodoApp.jsx').TodoApp;
 React.render(React.createElement(TodoApp, null), document.getElementById('app'));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./components/TodoApp.jsx":3}],9:[function(require,module,exports){
+},{"./components/TodoApp.jsx":4}],10:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -612,7 +661,7 @@ function isUndefined(arg) {
   return arg === void 0;
 }
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 /**
  * Copyright (c) 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -624,7 +673,7 @@ function isUndefined(arg) {
 
 module.exports.Dispatcher = require('./lib/Dispatcher')
 
-},{"./lib/Dispatcher":11}],11:[function(require,module,exports){
+},{"./lib/Dispatcher":12}],12:[function(require,module,exports){
 /*
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.
@@ -876,7 +925,7 @@ var _prefix = 'ID_';
 
 module.exports = Dispatcher;
 
-},{"./invariant":12}],12:[function(require,module,exports){
+},{"./invariant":13}],13:[function(require,module,exports){
 /**
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.
@@ -931,7 +980,7 @@ var invariant = function(condition, format, a, b, c, d, e, f) {
 
 module.exports = invariant;
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 //     Underscore.js 1.8.3
 //     http://underscorejs.org
 //     (c) 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -2481,7 +2530,7 @@ module.exports = invariant;
   }
 }.call(this));
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -2547,4 +2596,4 @@ var store = _underscore2['default'].extend({}, _events.EventEmitter.prototype, {
 exports['default'] = store;
 module.exports = exports['default'];
 
-},{"./constants":6,"./dispatcher":7,"events":9,"underscore":13}]},{},[8]);
+},{"./constants":7,"./dispatcher":8,"events":10,"underscore":14}]},{},[9]);
