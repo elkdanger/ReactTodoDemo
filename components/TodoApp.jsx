@@ -3,30 +3,32 @@ var TodoItems = require('./TodoItems.jsx').TodoItems;
 var EmailAddress = require('./EmailAddress.jsx').EmailAddress;
 import Store from '../store'
 
-module.exports.TodoApp = React.createClass({
+export const TodoApp = class extends React.Component {
 
-	getInitialState: function() {
-		return {
+	constructor() {
+		super();
+
+		this.state = {
 			count: Store.getAll().length,
 			showEmailPanel: false
-		}
-	},
+		};
+	}
 
-	componentDidMount: function() {
-		Store.addChangeListener(this.onItemChange);
-	},
+	componentDidMount() {
+		Store.addChangeListener(this.onItemChange.bind(this));
+	}
 
-	componentWillUnmount: function() {
-		Store.removeChangeListener(this.onItemChange);
-	},
+	componentWillUnmount() {
+		Store.removeChangeListener(this.onItemChange.bind(this));
+	}
 
-	onItemChange: function() {
+	onItemChange() {		
 		this.setState({ 
 			count: Store.getAll().length 
 		});
-	},
+	}
 
-	render: function() {
+	render() {
 		return (
 			<section id='todo'>
 				<h1>Todo List Demo ({this.state.count})</h1>		
@@ -35,4 +37,4 @@ module.exports.TodoApp = React.createClass({
 			</section>
 		)
 	}
-});
+};

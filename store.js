@@ -3,46 +3,51 @@ import { Actions } from './constants'
 import Dispatcher from './dispatcher'
 import _ from 'underscore'
 
-let items = []
+class Store extends EventEmitter {
 
-let store = _.extend({}, EventEmitter.prototype, {
+	constructor() {
+		super();
 
-	getAll: function() {
-		return items;
-	},
+		this.items = [];
 
-	emitChange: function() {
-		this.emit('changed');
-	},
+		Dispatcher.register(this.handleAction.bind(this))
+	}
 
-	addChangeListener: function(callback) {
-		this.on('changed', callback)
-	},
+	handleAction(action) {
 
-	removeChangeListener: function(callback) {
-		this.removeListener('changed', callback)
-	},
-
-	dispatcherIndex: Dispatcher.register(function(action) {
-		
 		console.log('Dispatcher action', action);
 
 		switch(action.actionType) {
 			case Actions.addItem:				
-				items.push(action.text.trim())
-				store.emitChange();
+				this.items.push(action.text.trim())
+				this.emitChange();
 				break;
 
 			case Actions.removeItem:
-				items.splice(items.indexOf(action.text.trim()), 1)
-				console.log(items);
-				store.emitChange()
+				this.items.splice(this.items.indexOf(action.text.trim()), 1)
+				console.log(this.items);
+				this.emitChange()
 				break;
 		}
 
-		return true
-	})
+		return true;
+	}
 
-});
+	getAll() {
+		return this.items;
+	}
 
-export default store;
+	emitChange() {
+		this.emit('changed');
+	}
+
+	addChangeListener(callback) {
+		this.on('changed', callback)
+	}
+
+	removeChangeListener(callback) {
+		this.removeListener('changed', callback)
+	}
+};
+
+export default new Store();
