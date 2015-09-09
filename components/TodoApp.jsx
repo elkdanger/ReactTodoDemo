@@ -1,6 +1,5 @@
 var React = require('react');
 var TodoItems = require('./TodoItems.jsx').TodoItems;
-var EmailAddress = require('./EmailAddress.jsx').EmailAddress;
 import Store from '../store'
 
 export const TodoApp = class extends React.Component {
@@ -22,16 +21,16 @@ export const TodoApp = class extends React.Component {
 		Store.removeChangeListener(this.onItemChange.bind(this));
 	}
 
-	onItemChange() {		
-		this.setState({ 
-			count: Store.getAll().length 
+	onItemChange() {
+		this.setState({
+			count: Store.getAll().length
 		});
 	}
 
 	render() {
 		return (
 			<section id='todo'>
-				<h1>Todo List Demo ({this.state.count})</h1>		
+				<h1>Todo List Demo ({this.state.count})</h1>
 				<TodoItems />
 				{ this.state.showEmailPanel && <EmailAddress /> }
 			</section>
